@@ -1,0 +1,66 @@
+@import "../common.scss";
+
+.flex {
+  display: flex;
+}
+
+td {
+  position: relative;
+  input {
+    height: 30px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    font-size: 13px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-left: 16px;
+    max-width: 160px;
+  }
+}
+
+.button-cell {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: fit-content;
+  .button {
+    height: 40px;
+    background-color: #ededed;
+    border: none;
+    color: $secondary;
+    font-weight: 500;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-right: 16px;
+    &.cancel-button {
+      color: $button;
+    }
+    &.save-button {
+      background-color: $button;
+      color: white;
+    }
+  }
+}
+
+.main {
+  background-color:#FFFF00 !important;
+}
+
+.error-message {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 5px 0 0;
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+}
