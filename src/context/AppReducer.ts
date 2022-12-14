@@ -30,6 +30,16 @@ const appReducer = (state: any, action: any) => {
         ...state,
         stationTypes: action.payload,
       };
+    case "FETCH_COMPANY_BY_ID":
+      return {
+        ...state,
+        companyById: action.payload,
+      };
+    case "ADD_STATION":
+      return {
+        ...state,
+        stations: [action.payload, ...state.stations],
+      };
     default:
       return state;
   }

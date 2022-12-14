@@ -20,9 +20,9 @@ const Table = () => {
     <table>
       <thead>
         <tr>
-          {Object.keys(FieldConfig).map((key) => {
+          {Object.keys(FieldConfig).map((key, id) => {
             return (
-              <th>
+              <th key={id}>
                 <div>{FieldConfig[key].label}</div>
               </th>
             );
@@ -30,7 +30,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {stationArray.map((station: Station, index: number) => {
+        {stationArray.map((station: Station) => {
           return (
             <StationtRow
               setEditMode={setEditMode}

@@ -3,9 +3,46 @@ import React, {
   useReducer,
   ReactElement,
   useEffect,
+  useCallback,
 } from "react";
 import AppReducer from "./AppReducer";
-import { Station } from "../interfaces/";
+import { Station, Company, ChargingStatus } from "../interfaces/";
+
+const apiHost = process.env.REACT_APP_API_HOST;
+
+export type Action =
+  | {
+      type: "FETCH_STATIONS";
+      payload: Station[];
+    }
+  | {
+      type: "FETCH_COMPANIES";
+      payload: Company[];
+    }
+  | {
+      type: "FETCH_STATION_BY_ID";
+      payload: Station;
+    }
+  | {
+      type: "FETCH_STATIONS_BY_COMPANY_ID";
+      payload: Station[];
+    }
+  | {
+      type: "FETCH_STATION_TYPE_BY_ID";
+      payload: Station;
+    }
+  | {
+      type: "FETCH_STATION_TYPES";
+      payload: ChargingStatus[];
+    }
+  | {
+      type: "FETCH_COMPANY_BY_ID";
+      payload: Company;
+    }
+  | {
+      type: "ADD_STATION";
+      payload: Station;
+    };
 
 interface InitialState {
   stations: Station[] | [];
@@ -20,6 +57,11 @@ interface InitialState {
   getStationsByCompanyId: (id: string) => void;
   stationById: any[] | [];
   stationTypes: any[] | [];
+  getCompanies: (searchTerm: string) => Promise<void>;
+  dispatch: React.Dispatch<Action>;
+  getCompanyById: (id: string) => void;
+  companyById: any;
+  editCompany: (data: any) => void;
 }
 interface GlobalProviderProps {
   children?: ReactElement[] | ReactElement;
@@ -39,6 +81,13 @@ const initialState: InitialState = {
   getStationsByCompanyId: () => {},
   stationById: [],
   stationTypes: [],
+  getCompanies: () => {
+    return Promise.resolve();
+  },
+  dispatch: () => {},
+  getCompanyById: () => {},
+  companyById: [],
+  editCompany: () => {},
 };
 
 // Create context
@@ -58,19 +107,36 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 
   const createData = async (type: string, data: any) => {
     if (type === "company") {
-      await fetch("http://localhost:3000/dev/api/create-company", {
+      await fetch(`${apiHost}create-company`, {
         method: "post",
         body: JSON.stringify(data),
       });
     }
     if (type === "station") {
-      await fetch("http://localhost:3000/dev/api/create-station", {
+      const res = await fetch(`${apiHost}create-station`, {
         method: "post",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+      const station = await res.json();
+      const newStation = {
+        station: station.name,
+        company: station.company.name,
+        stationType: station.stationType.name,
+        stationTypeId: station.stationType.id,
+        id: station.id,
+        companyId: station.company.id,
+      };
+      dispatch({
+        type: "ADD_STATION",
+        payload: newStation,
       });
     }
     if (type === "stationType") {
-      await fetch("http://localhost:3000/dev/api/create-station-type", {
+      await fetch(`${apiHost}create-station-type`, {
         method: "post",
         body: JSON.stringify(data),
       });
@@ -78,7 +144,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   };
 
   const getStation = async () => {
-    const res = await fetch("http://localhost:3000/dev/api/get-stations");
+    const res = await fetch(`${apiHost}get-stations`);
     const data = await res.json();
     const stations = data.map((station: any) => ({
       station: station.name,
@@ -86,6 +152,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
       stationType: station.stationType.name,
       stationTypeId: station.stationType.id,
       id: station.id,
+      companyId: station.company.id,
     }));
     dispatch({
       type: "FETCH_STATIONS",
@@ -93,55 +160,61 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const getStationById = async (id: string) => {
-    const res = await fetch(
-      `http://localhost:3000/dev/api/get-station?id=${id}`
-    );
+  const getStationById = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-station?id=${id}`);
     const data = await res.json();
 
     dispatch({
       type: "FETCH_STATION_BY_ID",
       payload: data,
     });
-  };
+  }, []);
 
   const getStationTypes = async () => {
-    const res = await fetch("http://localhost:3000/dev/api/get-station-type");
+    const res = await fetch(`${apiHost}get-station-type`);
     const data = await res.json();
-    console.log("getStationTypes", data);
     dispatch({
       type: "FETCH_STATION_TYPES",
       payload: data,
     });
   };
 
-  const getStationTypeById = async (id: string) => {
-    const res = await fetch(
-      `http://localhost:3000/dev/api/get-station-type?id=${id}`
-    );
+  const getStationTypeById = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-station-type?id=${id}`);
     const data = await res.json();
     dispatch({
       type: "FETCH_STATION_TYPE_BY_ID",
       payload: data,
     });
-  };
+  }, []);
 
   const editStation = async (station: Station) => {
-    await fetch("http://localhost:3000/dev/api/create-station", {
+    await fetch(`${apiHost}create-station`, {
       method: "post",
       body: JSON.stringify(station),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
     });
   };
 
   const editStationType = async (data: any) => {
-    await fetch("http://localhost:3000/dev/api/create-station-type", {
+    await fetch(`${apiHost}create-station-type`, {
+      method: "post",
+      body: JSON.stringify(data),
+    });
+  };
+
+  const editCompany = async (data: any) => {
+    await fetch(`${apiHost}create-company`, {
       method: "post",
       body: JSON.stringify(data),
     });
   };
 
   const getCompanies = async () => {
-    const res = await fetch("http://localhost:3000/dev/api/get-companies");
+    const res = await fetch(`${apiHost}get-companies`);
     const data = await res.json();
     dispatch({
       type: "FETCH_COMPANIES",
@@ -149,18 +222,23 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const getStationsByCompanyId = async (id: string) => {
-    console.log("getStationsByCompanyId", id);
-    const res = await fetch(
-      `http://localhost:3000/dev/api/get-stations-by-companyId?id=${id}`
-    );
+  const getStationsByCompanyId = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-stations-by-companyId?id=${id}`);
     const data = await res.json();
-    console.log("dataaaa", data);
     dispatch({
       type: "FETCH_STATIONS_BY_COMPANY_ID",
       payload: data,
     });
-  };
+  }, []);
+
+  const getCompanyById = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-company-by-id?id=${id}`);
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_COMPANY_BY_ID",
+      payload: data[0],
+    });
+  }, []);
 
   return (
     <GlobalContext.Provider
@@ -177,6 +255,11 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
         getStationsByCompanyId,
         stationById: state.stationById,
         stationTypes: state.stationTypes,
+        getCompanies,
+        getCompanyById,
+        companyById: state.companyById,
+        editCompany,
+        dispatch,
       }}
     >
       {children}

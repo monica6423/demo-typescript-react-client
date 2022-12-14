@@ -19,6 +19,8 @@ const Form = ({ formType }: FormProps) => {
   const { createData, companies, stationTypes } = useContext(GlobalContext);
   const [fieldData, setFieldData] = useState<any>({});
   const [error, setError] = useState<{ [key: string]: string }>({});
+  const [fieldConfig, setFieldConfig] = useState({});
+  const [fieldKey, setFieldKey] = useState<string[]>([]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setFieldData({
@@ -32,22 +34,23 @@ const Form = ({ formType }: FormProps) => {
   const onSubmitFields = async (e: MouseEvent) => {
     e.preventDefault();
     formType && createData(formType!, fieldData);
-    const fieldConstruct = fields.reduce((obj: any, v: any) => {
+    const fieldConstruct = fieldKey.reduce((obj: any, v: any) => {
       obj[v] = "";
       return obj;
     }, {});
     setFieldData(fieldConstruct);
-    window.location.reload();
+    // window.location.reload();
   };
 
-  const fieldObj = formType
-    ? FieldConfig2[formType as keyof typeof FieldConfig2]
-    : {};
-  const fields: { [key: string]: any } = formType
-    ? Object.keys(FieldConfig2[formType as keyof typeof FieldConfig2])
-    : [];
-
   useEffect(() => {
+    const fieldObj = formType
+      ? FieldConfig2[formType as keyof typeof FieldConfig2]
+      : {};
+    const fields: string[] = formType
+      ? Object.keys(FieldConfig2[formType as keyof typeof FieldConfig2])
+      : [];
+    setFieldConfig(fieldObj);
+    setFieldKey(fields);
     const fieldConstruct = fields.reduce((obj: any, v: any) => {
       obj[v] = "";
       return obj;
@@ -56,7 +59,6 @@ const Form = ({ formType }: FormProps) => {
   }, [formType]);
 
   const handleChange = (value: string, type: string) => {
-    console.log("setFieldData");
     setFieldData({
       ...fieldData,
       [type]: value,
@@ -87,8 +89,10 @@ const Form = ({ formType }: FormProps) => {
       )}
       <tr>
         {formType
-          ? fields.map((field: string, index: number) => {
-              const inputField = fieldObj[field as keyof typeof fieldObj] as {
+          ? fieldKey.map((field: string, index: number) => {
+              const inputField = fieldConfig[
+                field as keyof typeof fieldConfig
+              ] as {
                 key: string;
                 label: string;
                 dropdown: string | null;

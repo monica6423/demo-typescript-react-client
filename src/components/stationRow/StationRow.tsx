@@ -9,12 +9,16 @@ interface StationRowProps {
   editMode?: { [key: string]: boolean };
 }
 const StationRow = ({
-  station = { company: "", station: "", stationType: "", id: "" },
-  setEditMode,
-  editMode,
+  station = {
+    company: "",
+    station: "",
+    stationType: "",
+    id: "",
+    companyId: "",
+  },
 }: StationRowProps) => {
   return (
-    <tr className="list" key={station.id}>
+    <tr key={station.id} className="list">
       <td>
         <div>
           <Link to={`/station/${station.id}`}>{station.station}</Link>
@@ -28,7 +32,7 @@ const StationRow = ({
         </div>
       </td>
       <td>
-        <div id={`${station.id}`}>{station.company}</div>
+        <Link to={`/company/${station.companyId}`}>{station.company}</Link>
       </td>
     </tr>
   );

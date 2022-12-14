@@ -3,14 +3,14 @@ import "./CompanyPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams } from "react-router-dom";
 
-const CompanyPage = ({}) => {
+const CompanyPage = () => {
   const params = useParams();
   const { getStationsByCompanyId, stationById } = useContext(GlobalContext);
   const [stationData, setStationData] = useState(stationById) as any;
   console.log("stationById", stationById);
   useEffect(() => {
     params.id && getStationsByCompanyId(params.id);
-  }, [params]);
+  }, [params, getStationsByCompanyId]);
 
   useEffect(() => {
     setStationData(stationById);

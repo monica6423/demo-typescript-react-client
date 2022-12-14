@@ -1,36 +1,39 @@
 import React, { useContext, useEffect, useState, ChangeEvent } from "react";
-import "./StationTypePage.scss";
+import "./CompanyPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
 
-const StationTypePage = () => {
+const CompanyPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getStationTypeById, stationType, editStationType } =
+  const { getCompanyById, companyById, editCompany } =
     useContext(GlobalContext);
-  const [stationData, setStationData] = useState(stationType) as any;
+  const [companyData, setCompanyData] = useState(companyById) as any;
+  useEffect(() => {
+    params.id && getCompanyById(params.id);
+  }, [params, getCompanyById]);
+
+  useEffect(() => {
+    setCompanyData(companyById);
+  }, [companyById]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setStationData({
-      ...stationData,
+    setCompanyData({
+      ...companyData,
       [e.target.name]: e.target.value,
     });
   };
-  useEffect(() => {
-    params.id && getStationTypeById(params.id);
-  }, [params, getStationTypeById]);
-
-  useEffect(() => {
-    setStationData(stationType);
-  }, [stationType]);
 
   const onSave = async (e: any) => {
     e.preventDefault();
-    stationData && (await editStationType(stationData));
+    companyData && (await editCompany(companyData));
     navigate("/");
     window.location.reload();
   };
-  return stationData ? (
+
+  console.log("companyById", companyById);
+
+  return companyData ? (
     <div style={{ position: "relative" }}>
       <tbody style={{ width: "100%", display: "table" }}>
         <tr className="list">
@@ -41,28 +44,23 @@ const StationTypePage = () => {
             <div>Name</div>
           </td>
           <td>
-            <div>MaxPower</div>
+            <div>Parent Company Id</div>
           </td>
         </tr>
-        <tr className="list" key={stationData.id}>
+        <tr className="list" key={companyData.id}>
           <td>
-            <div id={`${stationData.id}`}>{stationData.id}</div>
+            <div id={`${companyData.id}`}>{companyData.id}</div>
           </td>
           <td>
             <input
               type="text"
               name="name"
-              value={stationData.name}
+              value={companyData.name}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
           <td>
-            <input
-              type="text"
-              name="maxPower"
-              value={stationData.maxPower}
-              onChange={(e) => onChangeInput(e)}
-            ></input>
+            <div>{companyData.parentCompanyId}</div>
           </td>
         </tr>
       </tbody>
@@ -85,4 +83,4 @@ const StationTypePage = () => {
   );
 };
 
-export default StationTypePage;
+export default CompanyPage;

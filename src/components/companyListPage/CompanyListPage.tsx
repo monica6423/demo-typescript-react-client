@@ -3,7 +3,7 @@ import "./CompanyListPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { Link } from "react-router-dom";
 
-const CompanyListPage = ({}) => {
+const CompanyListPage = () => {
   const { companies } = useContext(GlobalContext);
 
   console.log("comtext companies", companies);

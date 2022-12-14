@@ -3,7 +3,7 @@ import "./StationPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
 
-const StationPage = ({}) => {
+const StationPage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { getStationById, station, editStation } = useContext(GlobalContext);
@@ -19,7 +19,7 @@ const StationPage = ({}) => {
 
   useEffect(() => {
     params.id && getStationById(params.id);
-  }, [params]);
+  }, [params, getStationById]);
 
   useEffect(() => {
     setStationData(station);

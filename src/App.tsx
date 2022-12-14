@@ -10,6 +10,7 @@ import StationPage from "../src/components/stationPage/StationPage";
 import StationTypePage from "../src/components/stationTypePage/StationTypePage";
 import CompanyListPage from "../src/components/companyListPage/CompanyListPage";
 import CompanyPage from "../src/components/companyPage/CompanyPage";
+import CompanyEditPage from "../src/components/companyPage/CompanyEditPage";
 
 const Component1 = () => {
   const [formType, setFormType] = useState<string | null>(null);
@@ -39,6 +40,7 @@ const AppRoute = () => {
     { path: "station-type/:id", element: <StationTypePage /> },
     { path: "company-list", element: <CompanyListPage /> },
     { path: "company-list/:id", element: <CompanyPage /> },
+    { path: "company/:id", element: <CompanyEditPage /> },
   ]);
   return routes;
 };
