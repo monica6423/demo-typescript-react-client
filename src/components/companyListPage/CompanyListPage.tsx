@@ -4,9 +4,8 @@ import { GlobalContext } from "../../context/GlobalState";
 import { Link } from "react-router-dom";
 
 const CompanyListPage = () => {
-  const { companies } = useContext(GlobalContext);
+  const { parentCompanies } = useContext(GlobalContext);
 
-  console.log("comtext companies", companies);
   return (
     <div className="page">
       <thead>
@@ -20,7 +19,7 @@ const CompanyListPage = () => {
         </tr>
       </thead>
       <tbody>
-        {companies.map((company, index) => {
+        {parentCompanies.map((company, index) => {
           return (
             <tr className="list">
               <td>

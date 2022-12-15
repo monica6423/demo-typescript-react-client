@@ -9,10 +9,17 @@ import { v4 as uuidv4 } from "uuid";
 import "./Form.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { FieldConfig2 } from "../fieldConfig/FieldConfig";
-import { Select } from "antd";
-
+import { Select, Radio } from "antd";
+import type { RadioChangeEvent } from "antd";
 interface FormProps {
   formType: string | null;
+}
+
+interface InputField {
+  key: string;
+  label: string;
+  dropdown: string | null;
+  checkbox: string | null;
 }
 
 const Form = ({ formType }: FormProps) => {
@@ -21,27 +28,6 @@ const Form = ({ formType }: FormProps) => {
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [fieldConfig, setFieldConfig] = useState({});
   const [fieldKey, setFieldKey] = useState<string[]>([]);
-
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setFieldData({
-      ...fieldData,
-      [e.target.name]: e.target.value,
-      id: uuidv4(),
-    });
-    setError({ ...error, [e.target.name]: "" });
-  };
-
-  const onSubmitFields = async (e: MouseEvent) => {
-    e.preventDefault();
-    formType && createData(formType!, fieldData);
-    const fieldConstruct = fieldKey.reduce((obj: any, v: any) => {
-      obj[v] = "";
-      return obj;
-    }, {});
-    setFieldData(fieldConstruct);
-    // window.location.reload();
-  };
-
   useEffect(() => {
     const fieldObj = formType
       ? FieldConfig2[formType as keyof typeof FieldConfig2]
@@ -57,6 +43,15 @@ const Form = ({ formType }: FormProps) => {
     }, {});
     setFieldData(fieldConstruct);
   }, [formType]);
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setFieldData({
+      ...fieldData,
+      [e.target.name]: e.target.value,
+      id: uuidv4(),
+    });
+    setError({ ...error, [e.target.name]: "" });
+  };
 
   const handleChange = (value: string, type: string) => {
     setFieldData({
@@ -80,6 +75,66 @@ const Form = ({ formType }: FormProps) => {
       }));
     }
   };
+
+  const onChange = (e: RadioChangeEvent) => {
+    e.target.name &&
+      setFieldData({
+        ...fieldData,
+        [e.target.name]: e.target.value,
+        id: uuidv4(),
+      });
+  };
+
+  const renderInputField = (
+    inputField: InputField,
+    fieldData: any,
+    field: string
+  ) => {
+    if (inputField.dropdown) {
+      return (
+        <div>
+          <Select
+            defaultValue={inputField.key}
+            style={{ width: 180 }}
+            onChange={(value) => handleChange(value, inputField.key)}
+            options={optionArray(inputField.dropdown)}
+          />
+        </div>
+      );
+    }
+    if (inputField.checkbox) {
+      return (
+        <Radio.Group
+          onChange={onChange}
+          value={fieldData.status}
+          name={inputField.key}
+        >
+          <Radio value={"Available"}>Available</Radio>
+          <Radio value={"Charging"}>Charging</Radio>
+        </Radio.Group>
+      );
+    }
+    return (
+      <input
+        type="text"
+        name={inputField.key}
+        value={fieldData[field]}
+        onChange={(e) => onChangeInput(e)}
+        placeholder={inputField.label}
+      ></input>
+    );
+  };
+
+  const onSubmitFields = async (e: MouseEvent) => {
+    e.preventDefault();
+    formType && createData(formType!, fieldData);
+    const fieldConstruct = fieldKey.reduce((obj: any, v: any) => {
+      obj[v] = "";
+      return obj;
+    }, {});
+    setFieldData(fieldConstruct);
+    // window.location.reload();
+  };
   return (
     <>
       {formType === "company" && (
@@ -92,33 +147,10 @@ const Form = ({ formType }: FormProps) => {
           ? fieldKey.map((field: string, index: number) => {
               const inputField = fieldConfig[
                 field as keyof typeof fieldConfig
-              ] as {
-                key: string;
-                label: string;
-                dropdown: string | null;
-              };
+              ] as InputField;
               return (
                 <td key={index}>
-                  {!inputField.dropdown ? (
-                    <input
-                      type="text"
-                      name={inputField.key}
-                      value={fieldData[field]}
-                      onChange={(e) => onChangeInput(e)}
-                      placeholder={inputField.label}
-                    ></input>
-                  ) : (
-                    <div>
-                      <Select
-                        defaultValue={inputField.key}
-                        style={{ width: 120 }}
-                        onChange={(value) =>
-                          handleChange(value, inputField.key)
-                        }
-                        options={optionArray(inputField.dropdown)}
-                      />
-                    </div>
-                  )}
+                  {renderInputField(inputField, fieldData, field)}
                 </td>
               );
             })

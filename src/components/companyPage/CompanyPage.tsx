@@ -31,7 +31,7 @@ const CompanyPage = () => {
       <h2>{parent ? parent.name : ""}</h2>
       <thead>
         <tr>
-          <td>Comapny Name (incl. child company)</td>
+          <td>Station Name (incl. child company's station)</td>
           <td>Power</td>
           <td>State</td>
         </tr>

@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const StationTypePage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getStationTypeById, stationType, editStationType } =
+  const { getStationTypeById, stationType, editStationType, getStation } =
     useContext(GlobalContext);
   const [stationData, setStationData] = useState(stationType) as any;
 
@@ -28,7 +28,7 @@ const StationTypePage = () => {
     e.preventDefault();
     stationData && (await editStationType(stationData));
     navigate("/");
-    window.location.reload();
+    getStation();
   };
   return stationData ? (
     <div style={{ position: "relative" }}>

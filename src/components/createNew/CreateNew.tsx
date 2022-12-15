@@ -11,14 +11,11 @@ const CreateNew = ({ setFormType }: setState) => {
   const [open, setOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const renderForm = (type: string) => {
-    console.log("type", type);
     setFormType(type);
   };
 
-  const debounce2 = (fn: any, delay = 300) => {
-    console.log("trigger");
+  const debounce = (fn: any, delay = 300) => {
     let timer: any;
-
     return (...args: string[]) => {
       console.log(timer);
       console.log("fetchData2 inside return");
@@ -55,12 +52,10 @@ const CreateNew = ({ setFormType }: setState) => {
     });
   };
 
-  const debounceHandler = useMemo(() => debounce2(fetchData, 1000), []);
+  const debounceHandler = useMemo(() => debounce(fetchData, 1000), []);
 
   const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("e.target.value", e.target.value);
     setSearchTerm(e.target.value);
-    // debounce2(fetchData2, 2000)(e.target.value);
     debounceHandler(e.target.value);
   };
 

@@ -5,62 +5,30 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import AppReducer from "./AppReducer";
-import { Station, Company, ChargingStatus } from "../interfaces/";
+import AppReducer, { Action } from "./AppReducer";
+import { Station, Company } from "../interfaces/";
 
 const apiHost = process.env.REACT_APP_API_HOST;
-
-export type Action =
-  | {
-      type: "FETCH_STATIONS";
-      payload: Station[];
-    }
-  | {
-      type: "FETCH_COMPANIES";
-      payload: Company[];
-    }
-  | {
-      type: "FETCH_STATION_BY_ID";
-      payload: Station;
-    }
-  | {
-      type: "FETCH_STATIONS_BY_COMPANY_ID";
-      payload: Station[];
-    }
-  | {
-      type: "FETCH_STATION_TYPE_BY_ID";
-      payload: Station;
-    }
-  | {
-      type: "FETCH_STATION_TYPES";
-      payload: ChargingStatus[];
-    }
-  | {
-      type: "FETCH_COMPANY_BY_ID";
-      payload: Company;
-    }
-  | {
-      type: "ADD_STATION";
-      payload: Station;
-    };
 
 interface InitialState {
   stations: Station[] | [];
   station: Station | null;
   createData: (type: string, data: any) => void;
+  getStation: () => void;
   getStationById: (id: string) => void;
   editStation: (station: Station) => void;
   getStationTypeById: (id: string) => void;
   stationType: string | null;
   editStationType: (data: any) => void;
-  companies: any[];
+  companies: Company[];
+  parentCompanies: Company[];
   getStationsByCompanyId: (id: string) => void;
-  stationById: any[] | [];
+  stationById: Station[] | [];
   stationTypes: any[] | [];
-  getCompanies: (searchTerm: string) => Promise<void>;
+  getCompanies: (value: boolean) => Promise<void>;
   dispatch: React.Dispatch<Action>;
   getCompanyById: (id: string) => void;
-  companyById: any;
+  companyById: Company[];
   editCompany: (data: any) => void;
 }
 interface GlobalProviderProps {
@@ -72,12 +40,14 @@ const initialState: InitialState = {
   stations: [],
   station: null,
   createData: () => {},
+  getStation: () => {},
   getStationById: () => {},
   editStation: () => {},
   getStationTypeById: () => {},
   stationType: null,
   editStationType: () => {},
   companies: [],
+  parentCompanies: [],
   getStationsByCompanyId: () => {},
   stationById: [],
   stationTypes: [],
@@ -99,6 +69,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 
   useEffect(() => {
     getStation();
+    getCompanies(true);
     getCompanies();
     getStationTypes();
   }, []);
@@ -107,9 +78,14 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 
   const createData = async (type: string, data: any) => {
     if (type === "company") {
-      await fetch(`${apiHost}create-company`, {
+      const res = await fetch(`${apiHost}create-company`, {
         method: "post",
         body: JSON.stringify(data),
+      });
+      const company = await res.json();
+      dispatch({
+        type: "ADD_COMPANY",
+        payload: company,
       });
     }
     if (type === "station") {
@@ -213,9 +189,16 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const getCompanies = async () => {
-    const res = await fetch(`${apiHost}get-companies`);
+  const getCompanies = async (value = false) => {
+    const res = await fetch(`${apiHost}get-companies?parent=${value}`);
     const data = await res.json();
+    console.log("data", data);
+    if (value) {
+      dispatch({
+        type: "FETCH_PARENT_COMPANIES",
+        payload: data,
+      });
+    }
     dispatch({
       type: "FETCH_COMPANIES",
       payload: data,
@@ -246,12 +229,14 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
         stations: state.stations,
         station: state.station,
         createData,
+        getStation,
         getStationById,
         editStation,
         getStationTypeById,
         stationType: state.stationType,
         editStationType,
         companies: state.companies,
+        parentCompanies: state.parentCompanies,
         getStationsByCompanyId,
         stationById: state.stationById,
         stationTypes: state.stationTypes,

@@ -14,7 +14,7 @@ export const FieldConfig2 = {
       label: "Station Type Id",
       dropdown: "stationTypes",
     },
-    status: { key: "status", label: "Charging/Available" },
+    status: { key: "status", label: "Charging/Available", checkbox: "status" },
   },
   stationType: {
     name: { key: "name", label: "Station Type" },

@@ -7,7 +7,7 @@ const Header = () => {
       <div className="logo">
         <h1>Station List for User A</h1>
         <h3 style={{ marginLeft: "auto", marginRight: "1rem" }}>
-          <Link to="/company-list">Go to company list page ➜ </Link>
+          <Link to="/company-list">Go to parent company list page ➜ </Link>
         </h3>
       </div>
     </div>
