@@ -71,7 +71,7 @@ const CreateNew = ({ setFormType }: setState) => {
             name={"inputField.key"}
             value={searchTerm}
             onChange={(e) => onSearch(e)}
-            placeholder={"Search with station or company name"}
+            placeholder={"Search with station, company & type"}
           ></input>
         </td>
       </div>
