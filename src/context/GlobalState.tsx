@@ -18,7 +18,7 @@ const apiHost = process.env.REACT_APP_API_HOST;
 interface InitialState {
   stations: Station[] | [];
   station: Station | null;
-  createData: (type: string, data: any) => void;
+  createData: (type: string, data: Company | Station | StationType) => void;
   getStation: () => void;
   getStationById: (id: string) => void;
   editStation: (station: Station) => void;
