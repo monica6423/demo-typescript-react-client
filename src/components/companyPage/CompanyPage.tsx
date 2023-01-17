@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import "./CompanyPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams } from "react-router-dom";
+import { StationByCompany } from "../../interfaces";
 
 const CompanyPage = () => {
   const params = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { getStationsByCompanyId, stationById } = useContext(GlobalContext);
-  const [stationData, setStationData] = useState(stationById) as any;
-  console.log("stationById", stationById);
+  const [stationData, setStationData] =
+    useState<StationByCompany[]>(stationById);
+
   useEffect(() => {
     params.id && getStationsByCompanyId(params.id);
   }, [params, getStationsByCompanyId]);
@@ -15,8 +19,9 @@ const CompanyPage = () => {
   useEffect(() => {
     setStationData(stationById);
   }, [stationById]);
+
   const parent = stationData.find(
-    (stationData: any) => stationData.companyId === params.id
+    (stationData: StationByCompany) => stationData.companyId === params.id
   );
 
   const sum = (array: any) => {
@@ -26,6 +31,7 @@ const CompanyPage = () => {
       0
     );
   };
+
   return stationData ? (
     <div style={{ marginLeft: "3rem" }}>
       <h2>{parent ? parent.name : ""}</h2>
@@ -36,7 +42,7 @@ const CompanyPage = () => {
           <td>State</td>
         </tr>
       </thead>
-      {stationData.map((station: any, id: string) => {
+      {stationData.map((station: StationByCompany) => {
         return (
           <>
             <tbody>

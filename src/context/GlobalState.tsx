@@ -6,7 +6,12 @@ import React, {
   useCallback,
 } from "react";
 import AppReducer, { Action } from "./AppReducer";
-import { Station, Company } from "../interfaces/";
+import {
+  Station,
+  Company,
+  StationByCompany,
+  StationType,
+} from "../interfaces/";
 
 const apiHost = process.env.REACT_APP_API_HOST;
 
@@ -19,17 +24,17 @@ interface InitialState {
   editStation: (station: Station) => void;
   getStationTypeById: (id: string) => void;
   stationType: string | null;
-  editStationType: (data: any) => void;
+  editStationType: (data: StationType) => void;
   companies: Company[];
   parentCompanies: Company[];
   getStationsByCompanyId: (id: string) => void;
-  stationById: Station[] | [];
-  stationTypes: any[] | [];
+  stationById: StationByCompany[];
+  stationTypes: StationType[] | [];
   getCompanies: (value: boolean) => Promise<void>;
   dispatch: React.Dispatch<Action>;
   getCompanyById: (id: string) => void;
   companyById: Company[];
-  editCompany: (data: any) => void;
+  editCompany: (data: Company) => void;
 }
 interface GlobalProviderProps {
   children?: ReactElement[] | ReactElement;
@@ -76,7 +81,10 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 
   // Actions
 
-  const createData = async (type: string, data: any) => {
+  const createData = async (
+    type: string,
+    data: Company | Station | StationType
+  ) => {
     if (type === "company") {
       const res = await fetch(`${apiHost}create-company`, {
         method: "post",
@@ -149,6 +157,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const getStationTypes = async () => {
     const res = await fetch(`${apiHost}get-station-type`);
     const data = await res.json();
+    console.log("datas", data);
     dispatch({
       type: "FETCH_STATION_TYPES",
       payload: data,
@@ -192,7 +201,6 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const getCompanies = async (value = false) => {
     const res = await fetch(`${apiHost}get-companies?parent=${value}`);
     const data = await res.json();
-    console.log("data", data);
     if (value) {
       dispatch({
         type: "FETCH_PARENT_COMPANIES",

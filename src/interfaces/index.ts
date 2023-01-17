@@ -17,3 +17,16 @@ export enum ChargingStatus {
   Available,
   Charging,
 }
+
+export interface StationType {
+  id: string;
+  maxPower: number;
+  name: string;
+}
+
+export interface StationByCompany extends Record<string, any> {
+  company: string;
+  station: string;
+  stationType: StationType;
+  id: string;
+}
