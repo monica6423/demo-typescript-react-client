@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const CompanyPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getCompanyById, companyById, editCompany, getStation } =
+  const { getCompanyById, companyById, editCompany, getRestaurant } =
     useContext(GlobalContext);
   const [companyData, setCompanyData] = useState(companyById) as any;
   useEffect(() => {
@@ -28,7 +28,7 @@ const CompanyPage = () => {
     e.preventDefault();
     companyData && (await editCompany(companyData));
     navigate("/");
-    getStation();
+    getRestaurant();
   };
 
   return companyData ? (

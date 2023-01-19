@@ -23,7 +23,7 @@ interface InputField {
 }
 
 const Form = ({ formType }: FormProps) => {
-  const { createData, companies, stationTypes } = useContext(GlobalContext);
+  const { createData, companies, restaurantTypes } = useContext(GlobalContext);
   const [fieldData, setFieldData] = useState<any>({});
   const [error, setError] = useState<{ [key: string]: string }>({});
   const [fieldConfig, setFieldConfig] = useState({});
@@ -68,11 +68,13 @@ const Form = ({ formType }: FormProps) => {
         label: company.name,
       }));
     }
-    if (type === "stationTypes") {
-      return stationTypes.map((stationType: { id: string; name: string }) => ({
-        value: stationType.id,
-        label: stationType.name,
-      }));
+    if (type === "restaurantTypes") {
+      return restaurantTypes.map(
+        (restaurantType: { id: string; name: string }) => ({
+          value: restaurantType.id,
+          label: restaurantType.name,
+        })
+      );
     }
   };
 
@@ -110,7 +112,7 @@ const Form = ({ formType }: FormProps) => {
           name={inputField.key}
         >
           <Radio value={"Available"}>Available</Radio>
-          <Radio value={"Charging"}>Charging</Radio>
+          <Radio value={"TemporaryClose"}>TemporaryClose</Radio>
         </Radio.Group>
       );
     }

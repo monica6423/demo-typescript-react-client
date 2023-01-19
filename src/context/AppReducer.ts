@@ -1,9 +1,9 @@
-import { Station, Company, ChargingStatus } from "../interfaces/";
+import { Restaurant, Company, RestaurantStatus } from "../interfaces/";
 
 export type Action =
   | {
-      type: "FETCH_STATIONS";
-      payload: Station[];
+      type: "FETCH_RESTAURANTS";
+      payload: Restaurant[];
     }
   | {
       type: "FETCH_COMPANIES";
@@ -15,19 +15,19 @@ export type Action =
     }
   | {
       type: "FETCH_STATION_BY_ID";
-      payload: Station;
+      payload: Restaurant;
     }
   | {
-      type: "FETCH_STATIONS_BY_COMPANY_ID";
-      payload: Station[];
+      type: "FETCH_RESTAURANTS_BY_COMPANY_ID";
+      payload: Restaurant[];
     }
   | {
       type: "FETCH_STATION_TYPE_BY_ID";
-      payload: Station;
+      payload: Restaurant;
     }
   | {
       type: "FETCH_STATION_TYPES";
-      payload: ChargingStatus[];
+      payload: RestaurantStatus[];
     }
   | {
       type: "FETCH_COMPANY_BY_ID";
@@ -35,7 +35,7 @@ export type Action =
     }
   | {
       type: "ADD_STATION";
-      payload: Station;
+      payload: Restaurant;
     }
   | {
       type: "ADD_COMPANY";
@@ -44,10 +44,10 @@ export type Action =
 
 const appReducer = (state: any, action: any) => {
   switch (action.type) {
-    case "FETCH_STATIONS":
+    case "FETCH_RESTAURANTS":
       return {
         ...state,
-        stations: [...action.payload],
+        restaurants: [...action.payload],
       };
     case "FETCH_COMPANIES":
       return {
@@ -62,22 +62,22 @@ const appReducer = (state: any, action: any) => {
     case "FETCH_STATION_BY_ID":
       return {
         ...state,
-        station: action.payload,
+        restaurant: action.payload,
       };
-    case "FETCH_STATIONS_BY_COMPANY_ID":
+    case "FETCH_RESTAURANTS_BY_COMPANY_ID":
       return {
         ...state,
-        stationById: action.payload,
+        restaurantById: action.payload,
       };
     case "FETCH_STATION_TYPE_BY_ID":
       return {
         ...state,
-        stationType: action.payload,
+        restaurantType: action.payload,
       };
     case "FETCH_STATION_TYPES":
       return {
         ...state,
-        stationTypes: action.payload,
+        restaurantTypes: action.payload,
       };
     case "FETCH_COMPANY_BY_ID":
       return {
@@ -87,7 +87,7 @@ const appReducer = (state: any, action: any) => {
     case "ADD_STATION":
       return {
         ...state,
-        stations: [action.payload, ...state.stations],
+        restaurants: [action.payload, ...state.restaurants],
       };
     case "ADD_COMPANY":
       return {

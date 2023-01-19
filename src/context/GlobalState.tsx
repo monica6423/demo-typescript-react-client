@@ -7,29 +7,32 @@ import React, {
 } from "react";
 import AppReducer, { Action } from "./AppReducer";
 import {
-  Station,
+  Restaurant,
   Company,
-  StationByCompany,
-  StationType,
+  RestaurantByCompany,
+  RestaurantType,
 } from "../interfaces/";
 
 const apiHost = process.env.REACT_APP_API_HOST;
 
 interface InitialState {
-  stations: Station[] | [];
-  station: Station | null;
-  createData: (type: string, data: Company | Station | StationType) => void;
-  getStation: () => void;
-  getStationById: (id: string) => void;
-  editStation: (station: Station) => void;
-  getStationTypeById: (id: string) => void;
-  stationType: string | null;
-  editStationType: (data: StationType) => void;
+  restaurants: Restaurant[] | [];
+  restaurant: Restaurant | null;
+  createData: (
+    type: string,
+    data: Company | Restaurant | RestaurantType
+  ) => void;
+  getRestaurant: () => void;
+  getRestaurantById: (id: string) => void;
+  editRestaurant: (restaurant: Restaurant) => void;
+  getRestaurantTypeById: (id: string) => void;
+  restaurantType: string | null;
+  editRestaurantType: (data: RestaurantType) => void;
   companies: Company[];
   parentCompanies: Company[];
-  getStationsByCompanyId: (id: string) => void;
-  stationById: StationByCompany[];
-  stationTypes: StationType[] | [];
+  getRestaurantsByCompanyId: (id: string) => void;
+  restaurantById: RestaurantByCompany[];
+  restaurantTypes: RestaurantType[] | [];
   getCompanies: (value: boolean) => Promise<void>;
   dispatch: React.Dispatch<Action>;
   getCompanyById: (id: string) => void;
@@ -42,20 +45,20 @@ interface GlobalProviderProps {
 
 // Initial state
 const initialState: InitialState = {
-  stations: [],
-  station: null,
+  restaurants: [],
+  restaurant: null,
   createData: () => {},
-  getStation: () => {},
-  getStationById: () => {},
-  editStation: () => {},
-  getStationTypeById: () => {},
-  stationType: null,
-  editStationType: () => {},
+  getRestaurant: () => {},
+  getRestaurantById: () => {},
+  editRestaurant: () => {},
+  getRestaurantTypeById: () => {},
+  restaurantType: null,
+  editRestaurantType: () => {},
   companies: [],
   parentCompanies: [],
-  getStationsByCompanyId: () => {},
-  stationById: [],
-  stationTypes: [],
+  getRestaurantsByCompanyId: () => {},
+  restaurantById: [],
+  restaurantTypes: [],
   getCompanies: () => {
     return Promise.resolve();
   },
@@ -73,17 +76,17 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   useEffect(() => {
-    getStation();
+    getRestaurant();
     getCompanies(true);
     getCompanies();
-    getStationTypes();
+    getRestaurantTypes();
   }, []);
 
   // Actions
 
   const createData = async (
     type: string,
-    data: Company | Station | StationType
+    data: Company | Restaurant | RestaurantType
   ) => {
     if (type === "company") {
       const res = await fetch(`${apiHost}create-company`, {
@@ -96,8 +99,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
         payload: company,
       });
     }
-    if (type === "station") {
-      const res = await fetch(`${apiHost}create-station`, {
+    if (type === "restaurant") {
+      const res = await fetch(`${apiHost}create-restaurant`, {
         method: "post",
         body: JSON.stringify(data),
         headers: {
@@ -105,47 +108,47 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
           "Access-Control-Allow-Origin": "*",
         },
       });
-      const station = await res.json();
-      const newStation = {
-        station: station.name,
-        company: station.company.name,
-        stationType: station.stationType.name,
-        stationTypeId: station.stationType.id,
-        id: station.id,
-        companyId: station.company.id,
+      const restaurant = await res.json();
+      const newRestaurant = {
+        restaurant: restaurant.name,
+        company: restaurant.company.name,
+        restaurantType: restaurant.restaurantType.name,
+        restaurantTypeId: restaurant.restaurantType.id,
+        id: restaurant.id,
+        companyId: restaurant.company.id,
       };
       dispatch({
         type: "ADD_STATION",
-        payload: newStation,
+        payload: newRestaurant,
       });
     }
-    if (type === "stationType") {
-      await fetch(`${apiHost}create-station-type`, {
+    if (type === "restaurantType") {
+      await fetch(`${apiHost}create-restaurant-type`, {
         method: "post",
         body: JSON.stringify(data),
       });
     }
   };
 
-  const getStation = async () => {
-    const res = await fetch(`${apiHost}get-stations`);
+  const getRestaurant = async () => {
+    const res = await fetch(`${apiHost}get-restaurants`);
     const data = await res.json();
-    const stations = data.map((station: any) => ({
-      station: station.name,
-      company: station.company.name,
-      stationType: station.stationType.name,
-      stationTypeId: station.stationType.id,
-      id: station.id,
-      companyId: station.company.id,
+    const restaurants = data.map((restaurant: any) => ({
+      restaurant: restaurant.name,
+      company: restaurant.company.name,
+      restaurantType: restaurant.restaurantType.name,
+      restaurantTypeId: restaurant.restaurantType.id,
+      id: restaurant.id,
+      companyId: restaurant.company.id,
     }));
     dispatch({
-      type: "FETCH_STATIONS",
-      payload: stations,
+      type: "FETCH_RESTAURANTS",
+      payload: restaurants,
     });
   };
 
-  const getStationById = useCallback(async (id: string) => {
-    const res = await fetch(`${apiHost}get-station?id=${id}`);
+  const getRestaurantById = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-restaurant?id=${id}`);
     const data = await res.json();
 
     dispatch({
@@ -154,8 +157,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   }, []);
 
-  const getStationTypes = async () => {
-    const res = await fetch(`${apiHost}get-station-type`);
+  const getRestaurantTypes = async () => {
+    const res = await fetch(`${apiHost}get-restaurant-type`);
     const data = await res.json();
     console.log("datas", data);
     dispatch({
@@ -164,8 +167,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const getStationTypeById = useCallback(async (id: string) => {
-    const res = await fetch(`${apiHost}get-station-type?id=${id}`);
+  const getRestaurantTypeById = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-restaurant-type?id=${id}`);
     const data = await res.json();
     dispatch({
       type: "FETCH_STATION_TYPE_BY_ID",
@@ -173,10 +176,10 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   }, []);
 
-  const editStation = async (station: Station) => {
-    await fetch(`${apiHost}create-station`, {
+  const editRestaurant = async (restaurant: Restaurant) => {
+    await fetch(`${apiHost}create-restaurant`, {
       method: "post",
-      body: JSON.stringify(station),
+      body: JSON.stringify(restaurant),
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -184,8 +187,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const editStationType = async (data: any) => {
-    await fetch(`${apiHost}create-station-type`, {
+  const editRestaurantType = async (data: any) => {
+    await fetch(`${apiHost}create-restaurant-type`, {
       method: "post",
       body: JSON.stringify(data),
     });
@@ -213,11 +216,11 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     });
   };
 
-  const getStationsByCompanyId = useCallback(async (id: string) => {
-    const res = await fetch(`${apiHost}get-stations-by-companyId?id=${id}`);
+  const getRestaurantsByCompanyId = useCallback(async (id: string) => {
+    const res = await fetch(`${apiHost}get-restaurants-by-companyId?id=${id}`);
     const data = await res.json();
     dispatch({
-      type: "FETCH_STATIONS_BY_COMPANY_ID",
+      type: "FETCH_RESTAURANTS_BY_COMPANY_ID",
       payload: data,
     });
   }, []);
@@ -234,20 +237,20 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   return (
     <GlobalContext.Provider
       value={{
-        stations: state.stations,
-        station: state.station,
+        restaurants: state.restaurants,
+        restaurant: state.restaurant,
         createData,
-        getStation,
-        getStationById,
-        editStation,
-        getStationTypeById,
-        stationType: state.stationType,
-        editStationType,
+        getRestaurant,
+        getRestaurantById,
+        editRestaurant,
+        getRestaurantTypeById,
+        restaurantType: state.restaurantType,
+        editRestaurantType,
         companies: state.companies,
         parentCompanies: state.parentCompanies,
-        getStationsByCompanyId,
-        stationById: state.stationById,
-        stationTypes: state.stationTypes,
+        getRestaurantsByCompanyId,
+        restaurantById: state.restaurantById,
+        restaurantTypes: state.restaurantTypes,
         getCompanies,
         getCompanyById,
         companyById: state.companyById,

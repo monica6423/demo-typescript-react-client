@@ -35,20 +35,20 @@ const CreateNew = ({ setFormType }: setState) => {
 
   const fetchData = async (value: any) => {
     const res = await fetch(
-      `http://localhost:3000/dev/api/get-stations?searchValue=${value}`
+      `http://localhost:3000/dev/api/get-restaurants?searchValue=${value}`
     );
     const data = await res.json();
-    const stations = data.map((station: any) => ({
-      station: station.name,
-      company: station.company.name,
-      stationType: station.stationType.name,
-      stationTypeId: station.stationType.id,
-      id: station.id,
-      companyId: station.company.id,
+    const restaurants = data.map((restaurant: any) => ({
+      restaurant: restaurant.name,
+      company: restaurant.company.name,
+      restaurantType: restaurant.restaurantType.name,
+      restaurantTypeId: restaurant.restaurantType.id,
+      id: restaurant.id,
+      companyId: restaurant.company.id,
     }));
     dispatch({
-      type: "FETCH_STATIONS",
-      payload: stations,
+      type: "FETCH_RESTAURANTS",
+      payload: restaurants,
     });
   };
 
@@ -71,20 +71,20 @@ const CreateNew = ({ setFormType }: setState) => {
             name={"inputField.key"}
             value={searchTerm}
             onChange={(e) => onSearch(e)}
-            placeholder={"Search with station, company & type"}
+            placeholder={"Search by restaurant, company & type"}
           ></input>
         </td>
       </div>
       {open && (
         <div className="flex button-cell">
-          <button className="button " onClick={(e) => renderForm("station")}>
-            Station
+          <button className="button " onClick={(e) => renderForm("restaurant")}>
+            Restaurant
           </button>
           <button
             className="button "
-            onClick={(e) => renderForm("stationType")}
+            onClick={(e) => renderForm("restaurantType")}
           >
-            Station Type
+            Restaurant Type
           </button>
           <button className="button " onClick={(e) => renderForm("company")}>
             Company

@@ -1,36 +1,40 @@
 import React, { useContext, useEffect, useState, ChangeEvent } from "react";
-import "./StationTypePage.scss";
+import "./RestaurantTypePage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
 
-const StationTypePage = () => {
+const RestaurantTypePage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getStationTypeById, stationType, editStationType, getStation } =
-    useContext(GlobalContext);
-  const [stationData, setStationData] = useState(stationType) as any;
+  const {
+    getRestaurantTypeById,
+    restaurantType,
+    editRestaurantType,
+    getRestaurant,
+  } = useContext(GlobalContext);
+  const [restaurantData, setRestaurantData] = useState(restaurantType) as any;
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setStationData({
-      ...stationData,
+    setRestaurantData({
+      ...restaurantData,
       [e.target.name]: e.target.value,
     });
   };
   useEffect(() => {
-    params.id && getStationTypeById(params.id);
-  }, [params, getStationTypeById]);
+    params.id && getRestaurantTypeById(params.id);
+  }, [params, getRestaurantTypeById]);
 
   useEffect(() => {
-    setStationData(stationType);
-  }, [stationType]);
+    setRestaurantData(restaurantType);
+  }, [restaurantType]);
 
   const onSave = async (e: any) => {
     e.preventDefault();
-    stationData && (await editStationType(stationData));
+    restaurantData && (await editRestaurantType(restaurantData));
     navigate("/");
-    getStation();
+    getRestaurant();
   };
-  return stationData ? (
+  return restaurantData ? (
     <div style={{ position: "relative" }}>
       <tbody style={{ width: "100%", display: "table" }}>
         <tr className="list">
@@ -41,26 +45,26 @@ const StationTypePage = () => {
             <div>Name</div>
           </td>
           <td>
-            <div>MaxPower</div>
+            <div>Franchise Fee</div>
           </td>
         </tr>
-        <tr className="list" key={stationData.id}>
+        <tr className="list" key={restaurantData.id}>
           <td>
-            <div id={`${stationData.id}`}>{stationData.id}</div>
+            <div id={`${restaurantData.id}`}>{restaurantData.id}</div>
           </td>
           <td>
             <input
               type="text"
               name="name"
-              value={stationData.name}
+              value={restaurantData.name}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
           <td>
             <input
               type="text"
-              name="maxPower"
-              value={stationData.maxPower}
+              name="franchiseFee"
+              value={restaurantData.franchiseFee}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
@@ -85,4 +89,4 @@ const StationTypePage = () => {
   );
 };
 
-export default StationTypePage;
+export default RestaurantTypePage;

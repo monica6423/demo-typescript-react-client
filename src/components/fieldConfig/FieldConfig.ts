@@ -1,25 +1,29 @@
 export const FieldConfig = {
-  name: { key: "station", label: "Station (click to edit)" },
-  email: { key: "stationType", label: "Station Type (click to edit)" },
+  name: { key: "restaurant", label: "Restaurant (click to edit)" },
+  email: { key: "restaurantType", label: "Restaurant Type (click to edit)" },
   phone: { key: "company", label: "Company" },
 } as { [key: string]: { key: string; label: string } };
 
 export const FieldConfig2 = {
-  station: {
-    name: { key: "name", label: "Station Name" },
-    // stationId: { key: "stationId", label: "Station Id" },
+  restaurant: {
+    name: { key: "name", label: "Restaurant Name" },
+    // restaurantId: { key: "restaurantId", label: "Restaurant Id" },
     companyId: { key: "companyId", label: "Company Id", dropdown: "companies" },
-    stationTypeId: {
-      key: "stationTypeId",
-      label: "Station Type Id",
-      dropdown: "stationTypes",
+    restaurantTypeId: {
+      key: "restaurantTypeId",
+      label: "Restaurant Type Id",
+      dropdown: "restaurantTypes",
     },
-    status: { key: "status", label: "Charging/Available", checkbox: "status" },
+    status: {
+      key: "status",
+      label: "TemporaryClose/Available",
+      checkbox: "status",
+    },
   },
-  stationType: {
-    name: { key: "name", label: "Station Type" },
-    // stationTypeId: { key: "stationTypeId", label: "station Type Id" },
-    maxPower: { key: "maxPower", label: "maxPower" },
+  restaurantType: {
+    name: { key: "name", label: "Restaurant Type" },
+    // restaurantTypeId: { key: "restaurantTypeId", label: "restaurant Type Id" },
+    franchiseFee: { key: "franchiseFee", label: "FranchiseFee" },
   },
   company: {
     name: { key: "name", label: "Comapany Name" },

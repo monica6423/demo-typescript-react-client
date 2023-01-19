@@ -1,44 +1,44 @@
 import React, { useContext, useEffect, useState, ChangeEvent } from "react";
-import "./StationPage.scss";
+import "./RestaurantPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
 import { Select, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 
-const StationPage = () => {
+const RestaurantPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getStationById, station, editStation, getStation } =
+  const { getRestaurantById, restaurant, editRestaurant, getRestaurant } =
     useContext(GlobalContext);
-  const [stationData, setStationData] = useState(station) as any;
+  const [restaurantData, setRestaurantData] = useState(restaurant) as any;
 
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | RadioChangeEvent
   ) => {
     console.log("e.target.name", e.target.name);
     e.target.name &&
-      setStationData({
-        ...stationData,
+      setRestaurantData({
+        ...restaurantData,
         [e.target.name]: e.target.value,
       });
   };
 
   useEffect(() => {
-    params.id && getStationById(params.id);
-  }, [params, getStationById]);
+    params.id && getRestaurantById(params.id);
+  }, [params, getRestaurantById]);
 
   useEffect(() => {
-    setStationData(station);
-  }, [station]);
+    setRestaurantData(restaurant);
+  }, [restaurant]);
 
   const onSave = async (e: any) => {
     e.preventDefault();
     console.log("e.tartget,");
-    stationData && (await editStation(stationData));
-    getStation();
+    restaurantData && (await editRestaurant(restaurantData));
+    getRestaurant();
     navigate("/");
   };
-  return stationData ? (
+  return restaurantData ? (
     <div style={{ position: "relative" }}>
       <tbody style={{ width: "100%", display: "table" }}>
         <tr className="list">
@@ -52,43 +52,43 @@ const StationPage = () => {
             <div>CompanyId</div>
           </td>
           <td>
-            <div>StationTypeId</div>
+            <div>RestaurantTypeId</div>
           </td>
           <td>
             <div>Status</div>
           </td>
         </tr>
-        <tr className="list" key={stationData.id}>
+        <tr className="list" key={restaurantData.id}>
           <td>
-            <div id={`${stationData.id}`}>{stationData.id}</div>
+            <div id={`${restaurantData.id}`}>{restaurantData.id}</div>
           </td>
           <td>
             <input
               type="text"
               name="name"
-              value={stationData.name}
+              value={restaurantData.name}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
           <td>
-            <div>{stationData.companyId}</div>
+            <div>{restaurantData.companyId}</div>
           </td>
           <td>
             <input
               type="text"
-              name="stationTypeId"
-              value={stationData!.stationTypeId}
+              name="restaurantTypeId"
+              value={restaurantData!.restaurantTypeId}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
           <td>
             <Radio.Group
               onChange={onChangeInput}
-              value={stationData!.status}
+              value={restaurantData!.status}
               name="status"
             >
               <Radio value={"Available"}>Available</Radio>
-              <Radio value={"Charging"}>Charging</Radio>
+              <Radio value={"TemporaryClose"}>TemporaryClose</Radio>
             </Radio.Group>
           </td>
         </tr>
@@ -112,4 +112,4 @@ const StationPage = () => {
   );
 };
 
-export default StationPage;
+export default RestaurantPage;

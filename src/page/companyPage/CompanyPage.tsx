@@ -2,60 +2,62 @@ import React, { useContext, useEffect, useState } from "react";
 import "./CompanyPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams } from "react-router-dom";
-import { StationByCompany } from "../../interfaces";
+import { RestaurantByCompany } from "../../interfaces";
 
 const CompanyPage = () => {
   const params = useParams();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { getStationsByCompanyId, stationById } = useContext(GlobalContext);
-  const [stationData, setStationData] =
-    useState<StationByCompany[]>(stationById);
+  const { getRestaurantsByCompanyId, restaurantById } =
+    useContext(GlobalContext);
+  const [restaurantData, setRestaurantData] =
+    useState<RestaurantByCompany[]>(restaurantById);
 
   useEffect(() => {
-    params.id && getStationsByCompanyId(params.id);
-  }, [params, getStationsByCompanyId]);
+    params.id && getRestaurantsByCompanyId(params.id);
+  }, [params, getRestaurantsByCompanyId]);
 
   useEffect(() => {
-    setStationData(stationById);
-  }, [stationById]);
+    setRestaurantData(restaurantById);
+  }, [restaurantById]);
 
-  const parent = stationData.find(
-    (stationData: StationByCompany) => stationData.companyId === params.id
+  const parent = restaurantData.find(
+    (restaurantData: RestaurantByCompany) =>
+      restaurantData.companyId === params.id
   );
 
   const sum = (array: any) => {
     return array.reduce(
       (accumulator: any, currentValue: any) =>
-        accumulator + currentValue.stationType.maxPower,
+        accumulator + currentValue.restaurantType.franchiseFee,
       0
     );
   };
 
-  return stationData ? (
+  return restaurantData ? (
     <div style={{ marginLeft: "3rem" }}>
       <h2>{parent ? parent.name : ""}</h2>
       <thead>
         <tr>
-          <td>Station Name (incl. child company's station)</td>
-          <td>Power</td>
+          <td>Restaurant Name (incl. child company's restaurant)</td>
+          <td>Franchise Fee</td>
           <td>State</td>
         </tr>
       </thead>
-      {stationData.map((station: StationByCompany) => {
+      {restaurantData.map((restaurant: RestaurantByCompany) => {
         return (
           <>
             <tbody>
               <tr>
-                <td>{station.name}</td>
-                <td>{station.stationType.maxPower}</td>
-                <td>{station.status}</td>
+                <td>{restaurant.name}</td>
+                <td>{restaurant.restaurantType.franchiseFee}</td>
+                <td>{restaurant.status}</td>
               </tr>
             </tbody>
           </>
         );
       })}
-      <div>Total Power: {sum(stationData)}</div>
+      <div>Total Franchise Fee: {sum(restaurantData)}</div>
     </div>
   ) : (
     <>loading</>

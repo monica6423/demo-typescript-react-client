@@ -1,27 +1,27 @@
 import { useContext, useState, useEffect } from "react";
 import "./Table.scss";
 import { GlobalContext } from "../../context/GlobalState";
-import { Station } from "../../interfaces";
-import StationtRow from "../stationRow/StationRow";
+import { Restaurant } from "../../interfaces";
+import RestauranttRow from "../restaurantRow/RestaurantRow";
 import { FieldConfig } from "../fieldConfig/FieldConfig";
 import Pagination from "../pagination/Pagination";
 
 const Table = () => {
-  const { stations } = useContext(GlobalContext) as {
-    stations: Station[];
+  const { restaurants } = useContext(GlobalContext) as {
+    restaurants: Restaurant[];
   };
-  const [stationArray, setStationArray] = useState<Station[]>([]);
+  const [restaurantArray, setRestaurantArray] = useState<Restaurant[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(stationArray.length / itemsPerPage);
-  const currentData = stationArray.slice(
+  const totalPages = Math.ceil(restaurantArray.length / itemsPerPage);
+  const currentData = restaurantArray.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   useEffect(() => {
-    setStationArray(stations);
-  }, [stations]);
+    setRestaurantArray(restaurants);
+  }, [restaurants]);
 
   return (
     <table>
@@ -37,8 +37,8 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {currentData.map((station: Station) => {
-          return <StationtRow station={station} />;
+        {currentData.map((restaurant: Restaurant) => {
+          return <RestauranttRow restaurant={restaurant} />;
         })}
         <tr>
           <td colSpan={3}>
