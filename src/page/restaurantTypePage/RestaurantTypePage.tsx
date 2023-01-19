@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, ChangeEvent } from "react";
+import { useContext, useEffect, useState, ChangeEvent } from "react";
 import "./RestaurantTypePage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
@@ -12,14 +12,15 @@ const RestaurantTypePage = () => {
     editRestaurantType,
     getRestaurant,
   } = useContext(GlobalContext);
-  const [restaurantData, setRestaurantData] = useState(restaurantType) as any;
+  const [restaurantTypeData, setRestaurantData] = useState(restaurantType);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setRestaurantData({
-      ...restaurantData,
+      ...restaurantTypeData,
       [e.target.name]: e.target.value,
     });
   };
+
   useEffect(() => {
     params.id && getRestaurantTypeById(params.id);
   }, [params, getRestaurantTypeById]);
@@ -30,13 +31,14 @@ const RestaurantTypePage = () => {
 
   const onSave = async (e: any) => {
     e.preventDefault();
-    restaurantData && (await editRestaurantType(restaurantData));
+    restaurantTypeData && (await editRestaurantType(restaurantTypeData));
     navigate("/");
     getRestaurant();
   };
-  return restaurantData ? (
+
+  return restaurantTypeData ? (
     <div style={{ position: "relative" }}>
-      <tbody style={{ width: "100%", display: "table" }}>
+      <tbody className="editPage">
         <tr className="list">
           <td>
             <div>Id</div>
@@ -48,15 +50,15 @@ const RestaurantTypePage = () => {
             <div>Franchise Fee</div>
           </td>
         </tr>
-        <tr className="list" key={restaurantData.id}>
+        <tr className="list" key={restaurantTypeData.id}>
           <td>
-            <div id={`${restaurantData.id}`}>{restaurantData.id}</div>
+            <div id={`${restaurantTypeData.id}`}>{restaurantTypeData.id}</div>
           </td>
           <td>
             <input
               type="text"
               name="name"
-              value={restaurantData.name}
+              value={restaurantTypeData.name}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>
@@ -64,7 +66,7 @@ const RestaurantTypePage = () => {
             <input
               type="text"
               name="franchiseFee"
-              value={restaurantData.franchiseFee}
+              value={restaurantTypeData.franchiseFee}
               onChange={(e) => onChangeInput(e)}
             ></input>
           </td>

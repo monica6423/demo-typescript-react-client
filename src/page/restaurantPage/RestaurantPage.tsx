@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, ChangeEvent } from "react";
 import "./RestaurantPage.scss";
 import { GlobalContext } from "../../context/GlobalState";
 import { useParams, useNavigate } from "react-router-dom";
-import { Select, Radio } from "antd";
+import { Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 const RestaurantPage = () => {
@@ -15,7 +15,6 @@ const RestaurantPage = () => {
   const onChangeInput = (
     e: ChangeEvent<HTMLInputElement> | RadioChangeEvent
   ) => {
-    console.log("e.target.name", e.target.name);
     e.target.name &&
       setRestaurantData({
         ...restaurantData,
@@ -39,8 +38,8 @@ const RestaurantPage = () => {
     navigate("/");
   };
   return restaurantData ? (
-    <div style={{ position: "relative" }}>
-      <tbody style={{ width: "100%", display: "table" }}>
+    <div>
+      <tbody className="editPage">
         <tr className="list">
           <td>
             <div>Id</div>

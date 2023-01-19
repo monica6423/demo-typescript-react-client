@@ -33,7 +33,7 @@ interface InitialState {
   getRestaurantById: (id: string) => void;
   editRestaurant: (restaurant: Restaurant) => void;
   getRestaurantTypeById: (id: string) => void;
-  restaurantType: string | null;
+  restaurantType: RestaurantType;
   editRestaurantType: (data: RestaurantType) => void;
   companies: Company[];
   parentCompanies: Company[];
@@ -55,7 +55,7 @@ const initialState: InitialState = {
   getRestaurantById: () => {},
   editRestaurant: () => {},
   getRestaurantTypeById: () => {},
-  restaurantType: null,
+  restaurantType: { id: "", franchiseFee: 0, name: "" },
   editRestaurantType: () => {},
   companies: [],
   parentCompanies: [],

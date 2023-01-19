@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const CompanyPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { getCompanyById, companyById, editCompany, getRestaurant } =
+  const { getCompanyById, companyById, editCompany } =
     useContext(GlobalContext);
   const [companyData, setCompanyData] = useState(companyById) as any;
   useEffect(() => {
@@ -28,12 +28,11 @@ const CompanyPage = () => {
     e.preventDefault();
     companyData && (await editCompany(companyData));
     navigate("/");
-    getRestaurant();
   };
 
   return companyData ? (
-    <div style={{ position: "relative" }}>
-      <tbody style={{ width: "100%", display: "table" }}>
+    <div>
+      <tbody className="editPage">
         <tr className="list">
           <td>
             <div>Id</div>
@@ -63,17 +62,12 @@ const CompanyPage = () => {
         </tr>
       </tbody>
       <div className="button-cell" style={{ margin: "auto" }}>
-        <>
-          <button
-            className="button cancel-button"
-            onClick={() => navigate("/")}
-          >
-            Cancel
-          </button>
-          <button className="button save-button" onClick={(e) => onSave(e)}>
-            Save
-          </button>
-        </>
+        <button className="button cancel-button" onClick={() => navigate("/")}>
+          Cancel
+        </button>
+        <button className="button save-button" onClick={(e) => onSave(e)}>
+          Save
+        </button>
       </div>
     </div>
   ) : (

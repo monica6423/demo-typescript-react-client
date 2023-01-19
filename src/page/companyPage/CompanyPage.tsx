@@ -6,7 +6,6 @@ import { RestaurantByCompany } from "../../interfaces";
 
 const CompanyPage = () => {
   const params = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
 
   const { getRestaurantsByCompanyId, restaurantById } =
     useContext(GlobalContext);

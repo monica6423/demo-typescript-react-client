@@ -28,16 +28,18 @@ const Pagination = ({
     <div className="pagination">
       <button
         className="pagination-button previous-button"
+        data-testid="previous-button"
         onClick={handlePreviousClick}
         disabled={currentPage === 1}
       >
         <LeftOutlined />
       </button>
-      <div className="current-page">
+      <div className="current-page" data-testid="current-page">
         Page {currentPage} / {totalPages}
       </div>
       <button
         className="pagination-button next-button"
+        data-testid="next-button"
         onClick={handleNextClick}
         disabled={currentPage === totalPages}
       >

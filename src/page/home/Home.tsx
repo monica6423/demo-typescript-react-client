@@ -12,7 +12,6 @@ const HomePage = () => {
       linkTitle="parent compant list"
     >
       <CreateNew />
-
       <Table />
     </Layout>
   );
