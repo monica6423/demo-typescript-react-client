@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 
 interface StationRowProps {
   station?: Station;
-  setEditMode?: Dispatch<SetStateAction<{ [key: string]: boolean }>>;
-  editMode?: { [key: string]: boolean };
 }
 const StationRow = ({
   station = {

@@ -63,7 +63,7 @@ const CreateNew = ({ setFormType }: setState) => {
     <div>
       <div className="button-cell ">
         <button className="button main" onClick={(e) => setOpen(!open)}>
-          Create new
+          <b>Create new</b>
         </button>
         <td className="search-box">
           <input

@@ -4,13 +4,20 @@ import { GlobalContext } from "../../context/GlobalState";
 import { Station } from "../../interfaces";
 import StationtRow from "../stationRow/StationRow";
 import { FieldConfig } from "../fieldConfig/FieldConfig";
+import Pagination from "../pagination/Pagination";
 
 const Table = () => {
   const { stations } = useContext(GlobalContext) as {
     stations: Station[];
   };
   const [stationArray, setStationArray] = useState<Station[]>([]);
-  const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(stationArray.length / itemsPerPage);
+  const currentData = stationArray.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     setStationArray(stations);
@@ -30,15 +37,18 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {stationArray.map((station: Station) => {
-          return (
-            <StationtRow
-              setEditMode={setEditMode}
-              editMode={editMode}
-              station={station}
-            />
-          );
+        {currentData.map((station: Station) => {
+          return <StationtRow station={station} />;
         })}
+        <tr>
+          <td colSpan={3}>
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </td>
+        </tr>
       </tbody>
     </table>
   );
