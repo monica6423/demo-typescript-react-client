@@ -1,5 +1,7 @@
 import { Restaurant, Company, RestaurantStatus } from "../interfaces/";
 
+// Exports a default function called "appReducer" which takes in a "state" and an "action" as arguments.
+// The function uses a switch statement to handle different action types, updating the state accordingly and returning the new state.
 export type Action =
   | {
       type: "FETCH_RESTAURANTS";
@@ -22,11 +24,11 @@ export type Action =
       payload: Restaurant[];
     }
   | {
-      type: "FETCH_STATION_TYPE_BY_ID";
+      type: "FETCH_RESTAURANT_TYPE_BY_ID";
       payload: Restaurant;
     }
   | {
-      type: "FETCH_STATION_TYPES";
+      type: "FETCH_RESTAURANT_TYPES";
       payload: RestaurantStatus[];
     }
   | {
@@ -34,7 +36,7 @@ export type Action =
       payload: Company;
     }
   | {
-      type: "ADD_STATION";
+      type: "ADD_RESTAURANT";
       payload: Restaurant;
     }
   | {
@@ -69,12 +71,12 @@ const appReducer = (state: any, action: any) => {
         ...state,
         restaurantById: action.payload,
       };
-    case "FETCH_STATION_TYPE_BY_ID":
+    case "FETCH_RESTAURANT_TYPE_BY_ID":
       return {
         ...state,
         restaurantType: action.payload,
       };
-    case "FETCH_STATION_TYPES":
+    case "FETCH_RESTAURANT_TYPES":
       return {
         ...state,
         restaurantTypes: action.payload,
@@ -84,7 +86,7 @@ const appReducer = (state: any, action: any) => {
         ...state,
         companyById: action.payload,
       };
-    case "ADD_STATION":
+    case "ADD_RESTAURANT":
       return {
         ...state,
         restaurants: [action.payload, ...state.restaurants],
@@ -93,6 +95,11 @@ const appReducer = (state: any, action: any) => {
       return {
         ...state,
         companies: [action.payload, ...state.companies],
+      };
+    case "ADD_RESTAURANT_TYPES":
+      return {
+        ...state,
+        restaurantTypes: [action.payload, ...state.restaurantTypes],
       };
     default:
       return state;

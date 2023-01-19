@@ -1,10 +1,11 @@
-import React, {
+import {
   useState,
   useContext,
   MouseEvent,
   ChangeEvent,
   useEffect,
 } from "react";
+import { Restaurant, RestaurantType, Company } from "../../interfaces";
 import { v4 as uuidv4 } from "uuid";
 import "./Form.scss";
 import { GlobalContext } from "../../context/GlobalState";
@@ -22,12 +23,21 @@ interface InputField {
   checkbox: string | null;
 }
 
+const cleanFieldData = (fields: string[]) => {
+  return fields.reduce((obj: any, v: any) => {
+    obj[v] = "";
+    return obj;
+  }, {});
+};
+
 const Form = ({ formType }: FormProps) => {
   const { createData, companies, restaurantTypes } = useContext(GlobalContext);
-  const [fieldData, setFieldData] = useState<any>({});
-  const [error, setError] = useState<{ [key: string]: string }>({});
+  const [fieldData, setFieldData] = useState<
+    Restaurant | RestaurantType | Company
+  >({} as Restaurant | RestaurantType | Company);
   const [fieldConfig, setFieldConfig] = useState({});
   const [fieldKey, setFieldKey] = useState<string[]>([]);
+
   useEffect(() => {
     const fieldObj = formType
       ? FieldConfig2[formType as keyof typeof FieldConfig2]
@@ -37,23 +47,21 @@ const Form = ({ formType }: FormProps) => {
       : [];
     setFieldConfig(fieldObj);
     setFieldKey(fields);
-    const fieldConstruct = fields.reduce((obj: any, v: any) => {
-      obj[v] = "";
-      return obj;
-    }, {});
-    setFieldData(fieldConstruct);
+    setFieldData(cleanFieldData(fields));
   }, [formType]);
 
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setFieldData({
-      ...fieldData,
-      [e.target.name]: e.target.value,
-      id: uuidv4(),
-    });
-    setError({ ...error, [e.target.name]: "" });
+  const handleChange = (
+    e: RadioChangeEvent | ChangeEvent<HTMLInputElement>
+  ) => {
+    e.target.name &&
+      setFieldData({
+        ...fieldData,
+        [e.target.name]: e.target.value,
+        id: uuidv4(),
+      });
   };
 
-  const handleChange = (value: string, type: string) => {
+  const handleSelect = (value: string, type: string) => {
     setFieldData({
       ...fieldData,
       [type]: value,
@@ -62,29 +70,18 @@ const Form = ({ formType }: FormProps) => {
   };
 
   const optionArray = (type: string) => {
-    if (type === "companies") {
-      return companies.map((company: { id: string; name: string }) => ({
-        value: company.id,
-        label: company.name,
+    const mapToOption = (array: { id: string; name: string }[]) =>
+      array.map((item) => ({
+        value: item.id,
+        label: item.name,
       }));
+    if (type === "companies") {
+      return mapToOption(companies);
     }
     if (type === "restaurantTypes") {
-      return restaurantTypes.map(
-        (restaurantType: { id: string; name: string }) => ({
-          value: restaurantType.id,
-          label: restaurantType.name,
-        })
-      );
+      return mapToOption(restaurantTypes);
     }
-  };
-
-  const onChange = (e: RadioChangeEvent) => {
-    e.target.name &&
-      setFieldData({
-        ...fieldData,
-        [e.target.name]: e.target.value,
-        id: uuidv4(),
-      });
+    return [];
   };
 
   const renderInputField = (
@@ -98,7 +95,7 @@ const Form = ({ formType }: FormProps) => {
           <Select
             defaultValue={inputField.key}
             style={{ width: 180 }}
-            onChange={(value) => handleChange(value, inputField.key)}
+            onChange={(value) => handleSelect(value, inputField.key)}
             options={optionArray(inputField.dropdown)}
           />
         </div>
@@ -107,7 +104,7 @@ const Form = ({ formType }: FormProps) => {
     if (inputField.checkbox) {
       return (
         <Radio.Group
-          onChange={onChange}
+          onChange={handleChange}
           value={fieldData.status}
           name={inputField.key}
         >
@@ -121,7 +118,7 @@ const Form = ({ formType }: FormProps) => {
         type="text"
         name={inputField.key}
         value={fieldData[field]}
-        onChange={(e) => onChangeInput(e)}
+        onChange={(e) => handleChange(e)}
         placeholder={inputField.label}
       ></input>
     );
@@ -130,33 +127,23 @@ const Form = ({ formType }: FormProps) => {
   const onSubmitFields = async (e: MouseEvent) => {
     e.preventDefault();
     formType && createData(formType!, fieldData);
-    const fieldConstruct = fieldKey.reduce((obj: any, v: any) => {
-      obj[v] = "";
-      return obj;
-    }, {});
-    setFieldData(fieldConstruct);
-    // window.location.reload();
+    setFieldData(cleanFieldData(fieldKey));
   };
+
   return (
     <>
-      {formType === "company" && (
-        <div style={{ width: "max-content", color: "red" }}>
-          If creating a parent company, leave parent company id blank
-        </div>
-      )}
       <tr>
-        {formType
-          ? fieldKey.map((field: string, index: number) => {
-              const inputField = fieldConfig[
-                field as keyof typeof fieldConfig
-              ] as InputField;
-              return (
-                <td key={index}>
-                  {renderInputField(inputField, fieldData, field)}
-                </td>
-              );
-            })
-          : ""}
+        {formType &&
+          fieldKey.map((field: string, index: number) => {
+            const inputField = fieldConfig[
+              field as keyof typeof fieldConfig
+            ] as InputField;
+            return (
+              <td key={index}>
+                {renderInputField(inputField, fieldData, field)}
+              </td>
+            );
+          })}
         <td className="button-cell">
           {formType && (
             <button className="button" onClick={(e) => onSubmitFields(e)}>

@@ -24,12 +24,19 @@ td.search-box {
   }
 }
 
+
 .button-cell {
   height: 100%;
   display: flex;
-  justify-content: flex-end;
+  // justify-content: flex-end;
   align-items: center;
   width: fit-content;
+  &.create-new {
+    background: white;
+    padding-left: 10px;
+    padding-top: 10px;
+    width: auto;
+  }
   .button {
     height: 40px;
     background-color: #ededed;

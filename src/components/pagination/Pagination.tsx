@@ -1,7 +1,7 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React from "react";
 import "./Pagination.scss";
-interface Pagination {
+interface PaginationProps {
   totalPages: number;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -11,7 +11,7 @@ const Pagination = ({
   totalPages,
   currentPage,
   setCurrentPage,
-}: Pagination) => {
+}: PaginationProps) => {
   const handlePreviousClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

@@ -12,7 +12,7 @@ const Table = () => {
   };
   const [restaurantArray, setRestaurantArray] = useState<Restaurant[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
   const totalPages = Math.ceil(restaurantArray.length / itemsPerPage);
   const currentData = restaurantArray.slice(
     (currentPage - 1) * itemsPerPage,

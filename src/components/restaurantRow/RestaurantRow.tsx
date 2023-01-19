@@ -1,4 +1,3 @@
-import React, { SetStateAction, Dispatch } from "react";
 import { Restaurant } from "../../interfaces";
 import "./RestaurantRow.scss";
 import { Link } from "react-router-dom";
