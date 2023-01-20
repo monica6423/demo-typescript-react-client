@@ -29,7 +29,7 @@ it("should render the correct link", () => {
       <Layout title="Test Title" link="/test" linkTitle="Test" />
     </Router>
   );
-  const link = getByText(/Go to Test page ➜/i);
+  const link = getByText(/Visit Test ➜/i);
   expect(link.getAttribute("href")).toBe("/test");
 });
 

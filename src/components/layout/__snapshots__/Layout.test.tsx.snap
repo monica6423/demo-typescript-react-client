@@ -21,7 +21,7 @@ exports[`should render the component 1`] = `
             <a
               href="/test"
             >
-              Go to Test page ➜ 
+              Visit Test ➜ 
             </a>
           </h3>
         </div>
