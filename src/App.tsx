@@ -1,6 +1,6 @@
 import "./App.css";
 import { GlobalProvider } from "./context/GlobalState";
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { HashRouter, useRoutes } from "react-router-dom";
 import RestaurantPage from "./page/restaurantPage/RestaurantPage";
 import RestaurantTypePage from "./page/restaurantTypePage/RestaurantTypePage";
 import CompanyListPage from "./page/companyListPage/CompanyListPage";
@@ -22,11 +22,11 @@ const AppRoute = () => {
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter basename={"/"}>
       <GlobalProvider>
         <AppRoute />
       </GlobalProvider>
-    </Router>
+    </HashRouter>
   );
 };
 

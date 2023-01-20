@@ -34,6 +34,7 @@ const CreateNew = () => {
 
   //Use useMemo to create a debounced version of the fetchData function and store it in a variable debounceHandler.
   //This will ensure that a new debounced function is not created on every render
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceHandler = useMemo(() => debounce(fetchData, 1000), []);
 
   const onSearch = (e: ChangeEvent<HTMLInputElement>) => {
