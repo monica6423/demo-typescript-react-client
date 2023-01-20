@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/demo-typescript-react-client/static/css/main.7a4c0e36.chunk.css",
-    "main.js": "/demo-typescript-react-client/static/js/main.48ffe16a.chunk.js",
-    "main.js.map": "/demo-typescript-react-client/static/js/main.48ffe16a.chunk.js.map",
+    "main.js": "/demo-typescript-react-client/static/js/main.5add77d4.chunk.js",
+    "main.js.map": "/demo-typescript-react-client/static/js/main.5add77d4.chunk.js.map",
     "runtime-main.js": "/demo-typescript-react-client/static/js/runtime-main.670a4e8e.js",
     "runtime-main.js.map": "/demo-typescript-react-client/static/js/runtime-main.670a4e8e.js.map",
     "static/js/2.8ccef6de.chunk.js": "/demo-typescript-react-client/static/js/2.8ccef6de.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.670a4e8e.js",
     "static/js/2.8ccef6de.chunk.js",
     "static/css/main.7a4c0e36.chunk.css",
-    "static/js/main.48ffe16a.chunk.js"
+    "static/js/main.5add77d4.chunk.js"
   ]
 }
