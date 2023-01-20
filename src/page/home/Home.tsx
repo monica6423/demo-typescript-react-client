@@ -6,7 +6,7 @@ import Table from "../../components/table/Table";
 const HomePage = () => {
   return (
     <Layout
-      title="Carbonara Demo App"
+      title="Carbonara App"
       link="/company-list"
       linkTitle="parent compant list"
     >

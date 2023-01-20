@@ -1,6 +1,7 @@
 $main: #757575;
 $secondary: #505050;
-$button: #07f;
+$button: #acb5bd;
+$background: #acb5bd;
 
 table {
   width: 100%;
@@ -12,4 +13,47 @@ table {
 .editPage {
   width: 100%;
   display: table;
+}
+
+thead {
+  height: 48px;
+
+  tr {
+    th {
+      color: $main;
+      font-size: 14px;
+      line-height: 16px;
+      font-weight: 500;
+    }
+  }
+}
+
+tr {
+  background-color: white;
+  border-bottom: 1pt solid #f1f1f1;
+}
+
+th,
+td {
+  width: calc(912px / 4);
+  max-width: calc(912px / 4);
+  overflow: hidden;
+  text-align: left;
+
+  div {
+    padding-left: 24px;
+    max-width: 176px;
+  }
+}
+
+
+tbody {
+  color: $secondary;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  tr {
+    height: 72px;
+  }
 }

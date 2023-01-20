@@ -1,3 +1,4 @@
+@import "../common.scss";
 .pagination {
     display: flex;
     justify-content: center;
@@ -6,9 +7,9 @@
 }
 
 .pagination-button {
-    color: #ACB5BD;
+    color: $background;
     background-color: transparent;
-    border: 2px solid #ACB5BD;
+    border: 2px solid $background;
     padding: 6px 10px;
     text-align: center;
     text-decoration: none;
@@ -26,7 +27,7 @@
 }
 
 .pagination-button:hover {
-    background-color: #ACB5BD;
+    background-color: $background;
     color: white;
 }
 

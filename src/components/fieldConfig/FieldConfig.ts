@@ -1,6 +1,6 @@
 export const FieldConfig = {
-  name: { key: "restaurant", label: "Restaurant (click to edit)" },
-  email: { key: "restaurantType", label: "Restaurant Type (click to edit)" },
+  name: { key: "restaurant", label: "Restaurant" },
+  email: { key: "restaurantType", label: "Restaurant Type" },
   phone: { key: "company", label: "Company" },
 } as { [key: string]: { key: string; label: string } };
 

@@ -31,9 +31,11 @@ const RestaurantRow = ({
         </div>
       </td>
       <td>
-        <Link to={`/company/${restaurant.companyId}`}>
-          {restaurant.company}
-        </Link>
+        <div>
+          <Link to={`/company/${restaurant.companyId}`}>
+            {restaurant.company}
+          </Link>
+        </div>
       </td>
     </tr>
   );

@@ -24,11 +24,9 @@ td.search-box {
   }
 }
 
-
 .button-cell {
   height: 100%;
   display: flex;
-  // justify-content: flex-end;
   align-items: center;
   width: fit-content;
   &.create-new {
@@ -62,17 +60,6 @@ td.search-box {
 }
 
 .main {
-  background-color:#acb5bd !important;
+  background-color:$background !important;
   color: antiquewhite !important;
-}
-
-.error-message {
-  color: #cc0033;
-  display: inline-block;
-  font-size: 12px;
-  line-height: 15px;
-  margin: 5px 0 0;
-  position: absolute;
-  bottom: 0;
-  right: 10px;
 }
