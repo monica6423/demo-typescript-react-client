@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/monica6423/demo-typescript-react-client/static/css/main.7a4c0e36.chunk.css",
-    "main.js": "/monica6423/demo-typescript-react-client/static/js/main.4a976ff6.chunk.js",
-    "main.js.map": "/monica6423/demo-typescript-react-client/static/js/main.4a976ff6.chunk.js.map",
-    "runtime-main.js": "/monica6423/demo-typescript-react-client/static/js/runtime-main.f4b61e80.js",
-    "runtime-main.js.map": "/monica6423/demo-typescript-react-client/static/js/runtime-main.f4b61e80.js.map",
-    "static/js/2.aed039c7.chunk.js": "/monica6423/demo-typescript-react-client/static/js/2.aed039c7.chunk.js",
-    "static/js/2.aed039c7.chunk.js.map": "/monica6423/demo-typescript-react-client/static/js/2.aed039c7.chunk.js.map",
-    "static/js/3.16151089.chunk.js": "/monica6423/demo-typescript-react-client/static/js/3.16151089.chunk.js",
-    "static/js/3.16151089.chunk.js.map": "/monica6423/demo-typescript-react-client/static/js/3.16151089.chunk.js.map",
-    "index.html": "/monica6423/demo-typescript-react-client/index.html",
-    "static/css/main.7a4c0e36.chunk.css.map": "/monica6423/demo-typescript-react-client/static/css/main.7a4c0e36.chunk.css.map",
-    "static/js/2.aed039c7.chunk.js.LICENSE.txt": "/monica6423/demo-typescript-react-client/static/js/2.aed039c7.chunk.js.LICENSE.txt"
+    "main.css": "/demo-typescript-react-client/static/css/main.7a4c0e36.chunk.css",
+    "main.js": "/demo-typescript-react-client/static/js/main.4a976ff6.chunk.js",
+    "main.js.map": "/demo-typescript-react-client/static/js/main.4a976ff6.chunk.js.map",
+    "runtime-main.js": "/demo-typescript-react-client/static/js/runtime-main.670a4e8e.js",
+    "runtime-main.js.map": "/demo-typescript-react-client/static/js/runtime-main.670a4e8e.js.map",
+    "static/js/2.3456489b.chunk.js": "/demo-typescript-react-client/static/js/2.3456489b.chunk.js",
+    "static/js/2.3456489b.chunk.js.map": "/demo-typescript-react-client/static/js/2.3456489b.chunk.js.map",
+    "static/js/3.16151089.chunk.js": "/demo-typescript-react-client/static/js/3.16151089.chunk.js",
+    "static/js/3.16151089.chunk.js.map": "/demo-typescript-react-client/static/js/3.16151089.chunk.js.map",
+    "index.html": "/demo-typescript-react-client/index.html",
+    "static/css/main.7a4c0e36.chunk.css.map": "/demo-typescript-react-client/static/css/main.7a4c0e36.chunk.css.map",
+    "static/js/2.3456489b.chunk.js.LICENSE.txt": "/demo-typescript-react-client/static/js/2.3456489b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.f4b61e80.js",
-    "static/js/2.aed039c7.chunk.js",
+    "static/js/runtime-main.670a4e8e.js",
+    "static/js/2.3456489b.chunk.js",
     "static/css/main.7a4c0e36.chunk.css",
     "static/js/main.4a976ff6.chunk.js"
   ]
