@@ -1,6 +1,6 @@
 # Development Instructions
 - [Getting started](#getting-started)
-- [Deployed UI can be found here] (https://monica6423.github.io/demo-typescript-react-client/)
+- [Deployed UI can be found here](https://monica6423.github.io/demo-typescript-react-client/)
 
 ## Getting started
 
