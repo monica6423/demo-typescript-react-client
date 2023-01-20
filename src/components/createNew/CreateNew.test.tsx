@@ -2,7 +2,6 @@ import React from "react";
 import { render, fireEvent, cleanup, screen } from "@testing-library/react";
 import CreateNew from "./CreateNew";
 import { GlobalProvider } from "../../context/GlobalState";
-import { debounce } from "../../utilities/utilities";
 
 describe("CreateNew component", () => {
   afterEach(cleanup);

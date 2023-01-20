@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, fireEvent, screen } from "@testing-library/react";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 import Pagination from "./Pagination";
 
 afterEach(cleanup);
